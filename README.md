@@ -1,59 +1,153 @@
-# ChatApp
+# Angular Chat App 💬
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.11.
+A full-stack chat application built using Angular and Supabase featuring Google OAuth authentication, persistent PostgreSQL data storage, user profile management, and responsive chat functionality.
 
-## Development server
+[Live application](https://angular-chat-app-one.vercel.app/)
 
-To start a local development server, run:
+![The app UI](./UI.png)
+---
+
+## Features
+
+- Google OAuth authentication via Supabase
+- Session-based user management
+- Persistent message storage with PostgreSQL
+- User profile creation and avatar support
+- Real-time chat updates
+- Message ownership controls
+- Responsive interface built with Bootstrap
+- Hosted with Vercel
+- GitHub version control and CI workflow
+
+---
+
+## Tech Stack
+
+### Frontend
+- Angular
+- TypeScript
+- Bootstrap
+
+### Backend / Services
+- Supabase
+- PostgreSQL
+- Google OAuth
+
+### Deployment
+- Vercel
+- GitHub
+
+---
+
+## Architecture Overview
+
+Authentication is handled through Supabase Auth using Google OAuth.
+
+Upon successful login:
+
+1. User authenticates with Google
+2. Supabase creates an auth session
+3. Trigger functions populate profile data
+4. User information is stored in `public.users`
+5. Chat messages reference users through foreign keys
+
+---
+
+## Database Schema
+
+### users
+
+| Field | Type |
+|---|---|
+| id | uuid |
+| full_name | text |
+| avatar_url | text |
+
+Relationships:
+
+- `id → auth.users(id)`
+
+---
+
+### chat
+
+| Field | Type |
+|---|---|
+| id | uuid |
+| sender | uuid |
+| chat_text | text |
+| created_at | timestamp |
+| editable | boolean |
+
+Relationships:
+
+- `sender → users.id`
+
+---
+
+## Sample Schema
+
+```sql
+CREATE TABLE public.users (
+ id uuid references auth.users on delete cascade,
+ full_name text,
+ avatar_url text,
+ primary key(id)
+);
+```
+
+---
+
+## Acknowledgements
+
+This project was initially inspired by and built with guidance from a FreeCodeCamp tutorial. The application was extended and customized with additional functionality including custom message deletion behaviour, deployment configuration, and ongoing feature development.
+
+---
+
+## Local Setup
+
+Clone repository:
+
+```bash
+git clone https://github.com/pashamo/Angular-Chat-App.git
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Create environment variables:
+
+```env
+SUPABASE_URL=your_url
+SUPABASE_ANON_KEY=your_key
+```
+
+Run locally:
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Navigate to:
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+```text
+http://localhost:4200
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
 
-```bash
-ng generate --help
-```
+## Future Improvements
 
-## Building
+- Typing indicators
+- Edit message functionality
+- Read receipts
+- Search functionality
 
-To build the project run:
+---
 
-```bash
-ng build
-```
+## Author
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Mohammed Pasha
