@@ -4,6 +4,7 @@ A full-stack chat application built using Angular and Supabase featuring Google 
 
 [Live application](https://angular-chat-app-one.vercel.app/)
 
+![The app UI](./UI.png)
 ---
 
 ## Features
