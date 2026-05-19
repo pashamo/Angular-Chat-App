@@ -9,12 +9,14 @@ import { Router } from '@angular/router';
 export class AuthService {
   private supabase!: SupabaseClient;
   private router = inject(Router);
+  public currentUserId!: string;
 
   constructor() {
     this.supabase = createClient(environment.supabaseURL, environment.supabaseKey);
 
     this.supabase.auth.onAuthStateChange((event, session) => {
       console.log('event', event, 'session', session);
+      this.currentUserId = session?.user.id || "not found";
 
       localStorage.setItem('session', JSON.stringify(session?.user));
 
